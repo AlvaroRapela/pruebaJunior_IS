@@ -50,6 +50,7 @@ namespace VisorLibretaTelefonica
             
         }
 
+        /* Listar */
         private void button_listar_Click(object sender, RoutedEventArgs e)
         {
             if (!hayLibreta())
