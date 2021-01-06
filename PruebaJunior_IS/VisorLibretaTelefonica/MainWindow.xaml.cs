@@ -13,6 +13,8 @@ namespace VisorLibretaTelefonica
     {
         libretaTelefonica libreta = null;
         
+        private const string msg_err_no_libreta = "No has cargado ninguna libreta";
+        private const string msg_err_titulo_ventana = "Algo ha ido mal..";
 
         public MainWindow()
         {
@@ -38,7 +40,7 @@ namespace VisorLibretaTelefonica
         {
             if (!hayLibreta())
             {
-                MessageBox.Show("No has cargado ninguna libreta", "Algo ha ido mal..", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(msg_err_no_libreta, msg_err_titulo_ventana, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
             {
@@ -46,6 +48,18 @@ namespace VisorLibretaTelefonica
                 imprimirLibreta(idxs);
             } 
             
+        }
+
+        private void button_listar_Click(object sender, RoutedEventArgs e)
+        {
+            if (!hayLibreta())
+            {
+                MessageBox.Show(msg_err_no_libreta, msg_err_titulo_ventana, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
+            {                
+                imprimirLibreta();
+            }
         }
 
         #endregion
@@ -60,7 +74,7 @@ namespace VisorLibretaTelefonica
             }
             catch (IOException error)
             {
-                MessageBox.Show(error.Message, "Algo ha ido mal..", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(error.Message, msg_err_titulo_ventana, MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
 
@@ -102,7 +116,7 @@ namespace VisorLibretaTelefonica
             return this.libreta != null;
         }
 
-        
+
 
         #endregion
     }
