@@ -1,17 +1,16 @@
 ﻿using System.Data;
-using System.IO;
 using System.Windows;
+using ControladorLibretaTelefonica;
 using Microsoft.Win32;
-using ModeloLibretaTelefonica;
 
 namespace VisorLibretaTelefonica
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
-    {
-        libretaTelefonica libreta = null;
+    public partial class MainWindow : Window, IVista
+    {        
+        Controlador controlador = null; 
         
         private const string msg_err_no_libreta = "No has cargado ninguna libreta";
         private const string msg_err_titulo_ventana = "Algo ha ido mal..";
@@ -27,25 +26,29 @@ namespace VisorLibretaTelefonica
         private void button_carga_libreta_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == false) return; //si no seleccionamos fichero, salimos.
+            //si no seleccionamos fichero, volvemos.
+            if (openFileDialog.ShowDialog() == false) return;
 
-            if (cargarLibreta(openFileDialog.FileName))
+            //iniciamos controlador y leemos libreta
+            if (controlador == null)
             {
-                imprimirLibreta();
+                controlador = new Controlador(this);                
+                cargarLibreta(openFileDialog.FileName);
             }
+
         }
 
         /* Buscar */
         private void button_buscar_Click(object sender, RoutedEventArgs e)
         {
-            if (!hayLibreta())
+            if (!controlador.hayLibreta())
             {
                 MessageBox.Show(msg_err_no_libreta, msg_err_titulo_ventana, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
             {
-                int[] idxs = { 0, 49, 99 };
-                imprimirLibreta(idxs);
+                if (tb_buscar.Text == "") return;
+                controlador.busca(tb_buscar.Text, cb_columnas.Text);
             } 
             
         }
@@ -53,13 +56,13 @@ namespace VisorLibretaTelefonica
         /* Listar */
         private void button_listar_Click(object sender, RoutedEventArgs e)
         {
-            if (!hayLibreta())
+            if (!controlador.hayLibreta())
             {
                 MessageBox.Show(msg_err_no_libreta, msg_err_titulo_ventana, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
             {                
-                imprimirLibreta();
+                controlador.imprimirLibreta();
             }
         }
 
@@ -67,57 +70,26 @@ namespace VisorLibretaTelefonica
 
         #region FUNCIONES AUXILIARES
 
-        private bool cargarLibreta(string ruta)
+        private void cargarLibreta(string ruta)
         {
-            try
-            {
-                libreta = new libretaTelefonica(ruta);
-            }
-            catch (IOException error)
-            {
-                MessageBox.Show(error.Message, msg_err_titulo_ventana, MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
-            }
+            string msg = controlador.initLibreta(ruta);
+            if (msg != null) MessageBox.Show(msg, msg_err_titulo_ventana, MessageBoxButton.OK, MessageBoxImage.Error);
 
-            return true;
         }
 
-        private void imprimirLibreta(int[] idxs=null)
-        {     
+        #endregion
 
-            if (idxs == null)
-                this.visor.ItemsSource = libreta.consultaTabla().DefaultView;
-            else
-            {
-                DataTable dt = creaDT();
-                foreach(int idx in idxs)
-                {
-                    dt.Rows.Add(libreta.consultaFila(idx).ItemArray);
-                }
-
-                this.visor.ItemsSource = dt.DefaultView;
-            }
+        #region INTERFAZ
+        public void rellenaSelectorColumna(string[] columnas)
+        {
+            cb_columnas.ItemsSource = columnas;
+            cb_columnas.SelectedIndex = 0;
         }
 
-        private DataTable creaDT()
+        public void imprimirLibreta(DataView dv)
         {
-            DataTable dt = new DataTable();
-            string[] columnas = libreta.consultaEncabezados();
-
-            foreach(string col in columnas)
-            {
-                dt.Columns.Add(col);
-            }
-
-            return dt;
-        } 
-
-        private bool hayLibreta()
-        {
-            return this.libreta != null;
+            this.visor.ItemsSource = dv;
         }
-
-
 
         #endregion
     }

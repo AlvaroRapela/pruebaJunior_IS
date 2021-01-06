@@ -9,13 +9,11 @@ namespace ModeloLibretaTelefonica
     {
         public DataTable consultaTabla();
 
-        public DataRow consultaFila(int idx);
+        public DataTable consultaFilas(int[] idxs);
 
-        public DataTable consultaFilas(int[] idx);
+        public int[] consultaIndices(string key, string columna);
 
-        public List<int> consultaIndices(string key, string columna);
-
-        public string[] consultaEncabezados();
+        public string[] consultaColIndices();
                
     }
 }
