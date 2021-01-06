@@ -1,8 +1,11 @@
 ﻿using System;
+using System.IO;
+using ModeloLibretaTelefonica;
 
 namespace ControladorLibretaTelefonica
 {
-    public class Class1
+    class Controlador : IControlador
     {
+        
     }
 }

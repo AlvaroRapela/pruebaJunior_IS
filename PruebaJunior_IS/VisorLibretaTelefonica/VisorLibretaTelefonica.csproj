@@ -6,4 +6,9 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ControladorLibretaTelefonica\ControladorLibretaTelefonica.csproj" />
+    <ProjectReference Include="..\ModeloLibretaTelefonica\ModeloLibretaTelefonica.csproj" />
+  </ItemGroup>
+
 </Project>
