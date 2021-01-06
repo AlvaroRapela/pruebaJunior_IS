@@ -65,7 +65,6 @@ namespace ModeloLibretaTelefonica
         {
             libreta = new DataTable();
             StreamReader sr = new StreamReader(pathTexto);
-            string delimitadores = delimitador + delimitador_nombres;
 
             //instanciamos columnas
             libreta.Columns.Add(cNombre);
@@ -76,7 +75,9 @@ namespace ModeloLibretaTelefonica
             //instanciamos filas
             while (!sr.EndOfStream)
             {
-                string[] row = sr.ReadLine().Split(delimitadores.ToCharArray());
+                string linea = sr.ReadLine();
+                string[] row = creaFila(linea);
+               
                 DataRow dr = libreta.NewRow();
 
                 for (int i = 0; i < libreta.Columns.Count; i++)
@@ -86,6 +87,23 @@ namespace ModeloLibretaTelefonica
 
                 libreta.Rows.Add(dr);
             }
+        }
+
+        private string[] creaFila(string linea)
+        {
+            // Las ciudades pueden ser del tipo 'palma de mallorca'. 
+            // Por tanto, el separador ' ', sólo hay que aplicárselo al campo que contiene el nombre y el apellido.
+            
+            string[] row = new string[4];
+            string[] aux = linea.Split(delimitador);
+
+            //rellenamos datos
+            row[0] = aux[0].Split(delimitador_nombres)[0];
+            row[1] = aux[0].Split(delimitador_nombres)[1];
+            row[2] = aux[1];
+            row[3] = aux[2];
+
+            return row;
         }
 
         public DataTable consultaTabla()
