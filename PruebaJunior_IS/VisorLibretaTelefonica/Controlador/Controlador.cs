@@ -36,9 +36,13 @@ namespace ControladorLibretaTelefonica
 
         public void busca(string key, string columna)
         {
-            //consultamos indices y los imprimimos
+            //consultamos indices
             int[] indices = libreta.consultaIndices(key, columna);
-            vista.imprimirLibreta(libreta.consultaFilas(indices).DefaultView);
+
+            //imprimimos resultado
+            if (indices == null)    vista.busquedaVacia();
+            else                    vista.imprimirLibreta(libreta.consultaFilas(indices).DefaultView);
+            
         }
 
         public bool hayLibreta()

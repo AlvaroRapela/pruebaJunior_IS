@@ -11,5 +11,7 @@ namespace VisorLibretaTelefonica
 
         public void imprimirLibreta(DataView dv);
 
+        public void busquedaVacia();
+
     }
 }

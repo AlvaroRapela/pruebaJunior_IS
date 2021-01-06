@@ -10,14 +10,16 @@ namespace VisorLibretaTelefonica
     /// </summary>
     public partial class MainWindow : Window, IVista
     {        
-        Controlador controlador = null; 
-        
+        Controlador controlador = null;
+
+        private const string msg_busqueda_vacia = "No he encontrado nada";
         private const string msg_err_no_libreta = "No has cargado ninguna libreta";
         private const string msg_err_titulo_ventana = "Algo ha ido mal..";
 
         public MainWindow()
         {
             InitializeComponent();
+            controlador = new Controlador(this);
         }
 
         #region EVENTOS
@@ -29,13 +31,8 @@ namespace VisorLibretaTelefonica
             //si no seleccionamos fichero, volvemos.
             if (openFileDialog.ShowDialog() == false) return;
 
-            //iniciamos controlador y leemos libreta
-            if (controlador == null)
-            {
-                controlador = new Controlador(this);                
-                cargarLibreta(openFileDialog.FileName);
-            }
-
+            //leemos libreta
+            cargarLibreta(openFileDialog.FileName);
         }
 
         /* Buscar */
@@ -89,6 +86,11 @@ namespace VisorLibretaTelefonica
         public void imprimirLibreta(DataView dv)
         {
             this.visor.ItemsSource = dv;
+        }
+
+        public void busquedaVacia()
+        {
+            MessageBox.Show(msg_busqueda_vacia, msg_err_titulo_ventana, MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         #endregion

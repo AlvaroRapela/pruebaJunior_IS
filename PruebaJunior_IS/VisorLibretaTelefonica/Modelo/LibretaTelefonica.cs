@@ -58,7 +58,10 @@ namespace ModeloLibretaTelefonica
                 default: break;
             }
 
-            return indices.ToArray();
+            //hemos encontrado algo?
+            if (indices == null) return null;
+            else                 return indices.ToArray();
+
         }
 
         public string[] consultaColIndices()
