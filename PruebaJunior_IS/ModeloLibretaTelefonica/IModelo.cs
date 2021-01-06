@@ -8,6 +8,10 @@ namespace ModeloLibretaTelefonica
     interface IModelo
     {
         public DataTable consultaTabla();
+
+        public DataRow consultaFila(int idx);
+
+        public string[] consultaEncabezados(); 
         
     }
 }

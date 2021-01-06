@@ -12,8 +12,10 @@
             <ColumnDefinition Width="727*"/>
         </Grid.ColumnDefinitions>
         <DataGrid x:Name="visor" AutoGenerateColumns="True" Grid.Column="1" HorizontalAlignment="Left" Height="297" Margin="0,89,0,0" VerticalAlignment="Top" Width="653"/>
-        <Button x:Name="button_buscar" Content="Buscar" Grid.Column="1" HorizontalAlignment="Left" Height="25" Margin="0,41,0,0" VerticalAlignment="Top" Width="94" Click="button_buscar_Click"/>
+        <Button x:Name="button_buscar" Content="Buscar" Grid.Column="1" HorizontalAlignment="Left" Height="25" Margin="346,59,0,0" VerticalAlignment="Top" Width="94" Click="button_buscar_Click"/>
         <Button x:Name="button_carga_libreta" Content="Cargar" Grid.Column="1" HorizontalAlignment="Left" Height="26" Margin="0,10,0,0" VerticalAlignment="Top" Width="94" Click="button_carga_libreta_Click"/>
+        <TextBox x:Name="tb_buscar" Grid.Column="1" HorizontalAlignment="Left" Height="25" Margin="0,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="180"/>
+        <ComboBox x:Name="cb_columnas" Grid.Column="1" HorizontalAlignment="Left" Height="25" Margin="185,59,0,0" VerticalAlignment="Top" Width="156"/>
 
     </Grid>
 </Window>

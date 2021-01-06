@@ -1,6 +1,5 @@
 ﻿using System.Data;
 using System.IO;
-using System.Linq;
 
 namespace ModeloLibretaTelefonica
 {
@@ -28,14 +27,17 @@ namespace ModeloLibretaTelefonica
             libreta.Columns.Add(cCiudad);
             libreta.Columns.Add(cTelefono);
             
+            //instanciamos filas
             while (!sr.EndOfStream)
             {
                 string[] row = sr.ReadLine().Split(delimitadores.ToCharArray());
                 DataRow dr = libreta.NewRow();
+
                 for (int i = 0; i < libreta.Columns.Count; i++)
                 {
                     dr[i] = row[i];
                 }
+
                 libreta.Rows.Add(dr);
             }
         }
@@ -43,6 +45,16 @@ namespace ModeloLibretaTelefonica
         public DataTable consultaTabla()
         {
             return this.libreta;
+        }
+
+        public string[] consultaEncabezados()
+        {
+            return new string[] { cNombre, cApellido, cCiudad, cTelefono };
+        }
+
+        public DataRow consultaFila(int idx)
+        {
+            return this.libreta.Rows[idx];
         }
     }
 }
